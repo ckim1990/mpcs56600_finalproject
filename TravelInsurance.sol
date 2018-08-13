@@ -2,6 +2,7 @@ pragma solidity ^0.4.0;
 
 contract TravelInsurance {
 
+    // individual contract parameters
     address public insured;
     MedicalInformation emergencyInfo;
     uint public premiumAmount;
@@ -10,6 +11,7 @@ contract TravelInsurance {
     uint startDateTime;
     uint endDateTime;
 
+    // owner is Insurance company
     address owner;
 
     struct MedicalInformation{
@@ -26,6 +28,12 @@ contract TravelInsurance {
         bool surgeryCoverage;
     }
 
+    event contractProposed(
+        address indexed _insured,
+        PolicyDetails indexed _proposedPolicy,
+        uint _value
+        );
+
     constructor() public {
         // initial constructor called by insurance company
         owner = msg.sender;
@@ -34,13 +42,22 @@ contract TravelInsurance {
         insurancePolicy = PolicyDetails(false, false, false);
     }
 
-    function selectNewPolicy(uint _startDateTime, uint _endDateTime, bool _erVisitCoverage, bool _prescriptionCoverage, bool _surgeryCoverage) public {
+    function selectNewPolicy(uint _startDateTime, uint _endDateTime, bool _erVisitCoverage, bool _prescriptionCoverage, bool _surgeryCoverage) public payable {
         insured = msg.sender;
         startDateTime = _startDateTime;
         endDateTime = _endDateTime;
         insurancePolicy.erVisitCoverage = _erVisitCoverage;
         insurancePolicy.prescriptionCoverage = _prescriptionCoverage;
         insurancePolicy.surgeryCoverage = _surgeryCoverage;
+
+        // calculate insurance policy based on selected parameters
+        uint premRequired = calcPolicyPremium(insurancePolicy);
+
+        // require that funds send match required premium
+        require(msg.value == premRequired);
+
+        // log details of proposed contract
+        emit contractProposed(msg.sender, insurancePolicy, msg.value);
     }
 
     function provideEmergencyInfo(string _bloodType, string _allergies, string _conditions, uint _emergencyPhNum, string _homeCountry) public {
