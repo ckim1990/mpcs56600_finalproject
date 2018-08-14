@@ -1,5 +1,6 @@
 pragma solidity ^0.4.0;
 
+// template for primary traveler insurance contract
 contract TravelInsurance {
 
     // individual contract parameters
@@ -17,6 +18,7 @@ contract TravelInsurance {
     // trusted providers registered in a separate contract
     address trustedProviders;
 
+    // optional additional information
     struct MedicalInformation{
         string bloodType;
         string allergies;
@@ -25,32 +27,36 @@ contract TravelInsurance {
         string homeCountry;
     }
 
+    // policy parameters
     struct PolicyDetails{
         bool erVisitCoverage;
         bool prescriptionCoverage;
         bool surgeryCoverage;
     }
 
+    // event recording for new contract
     event contractProposed(
         address indexed _insured,
         PolicyDetails indexed _proposedPolicy,
         uint _premiumValue
         );
 
+    // event recording for validated contract
     event contractValidated(
         address indexed _insurer,
         PolicyDetails indexed _validatedPolicy,
         uint _coverageValue
         );
 
+    // event recording for processed claim
     event claimProcessed(
         address indexed _provider,
         PolicyDetails indexed _validatedPolicy,
         uint _amountDisbursed
         );
 
+    // initial constructor called by insurance company
     constructor(address _trustedProviderContract) public {
-        // initial constructor called by insurance company
         owner = msg.sender;
 
         // set trusted contract
@@ -96,6 +102,7 @@ contract TravelInsurance {
         emit contractValidated(msg.sender, insurancePolicy, msg.value);
     }
 
+    // function for medical provider to claim payment; must be called via TrustedProviders contract
     function claimFunds(uint _claimAmount, address _providerAddress) public payable {
         require(msg.sender == trustedProviders);
         if(_claimAmount < maxPayout){
@@ -129,6 +136,7 @@ contract TravelInsurance {
             multiplier += 2;
         }
 
+        // multiply daily rate by multiplier
         uint policyDuration = endDateTime - startDateTime;
         premium = (policyDuration * 5) * multiplier;
 
@@ -155,26 +163,33 @@ contract TravelInsurance {
     }
 }
 
-
+// separate contract used to manage Insurance company trusted providers
 contract TrustedProviders {
 
+    // trusted provider addresses stored in mapping
     mapping (address => string) public trustedProviders;
+
+    // contract owned by insurance company
     address owner;
 
+    // constructor called by insurance company
     constructor() public{
         owner = msg.sender;
     }
 
+    // function to add new provider to trusted list
     function addTrustedProvider(address _providerAddress, string _providerName) public {
         require(msg.sender == owner);
         trustedProviders[_providerAddress] = _providerName;
     }
 
+    // function to remove trusted provider
     function removeTrustedProvider(address _providerAddress) public {
         require(msg.sender == owner);
         delete trustedProviders[_providerAddress];
     }
 
+    // function used by a trusted provider to call an individual contract and claim payment
     function fileClaim(address _claimContract, uint _claimAmount) public {
         TravelInsurance claimContract = TravelInsurance(_claimContract);
         bytes memory testEmpty = bytes(trustedProviders[msg.sender]);
