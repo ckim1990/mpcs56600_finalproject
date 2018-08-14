@@ -14,6 +14,9 @@ contract TravelInsurance {
     // owner is Insurance company
     address owner;
 
+    // trusted providers registered in a separate contract
+    address trustedProviders;
+
     struct MedicalInformation{
         string bloodType;
         string allergies;
@@ -40,9 +43,18 @@ contract TravelInsurance {
         uint _coverageValue
         );
 
-    constructor() public {
+    event claimProcessed(
+        address indexed _provider,
+        PolicyDetails indexed _validatedPolicy,
+        uint _amountDisbursed
+        );
+
+    constructor(address _trustedProviderContract) public {
         // initial constructor called by insurance company
         owner = msg.sender;
+
+        // set trusted contract
+        trustedProviders = _trustedProviderContract;
 
         // set insurance parameters (defaults to no coverage)
         insurancePolicy = PolicyDetails(false, false, false);
@@ -82,6 +94,15 @@ contract TravelInsurance {
 
         // log details of validated contract
         emit contractValidated(msg.sender, insurancePolicy, msg.value);
+    }
+
+    function claimFunds(uint _claimAmount, address _providerAddress) public payable {
+        require(msg.sender == trustedProviders);
+        if(_claimAmount < maxPayout){
+            if (now >= startDateTime && now <= endDateTime){
+                _providerAddress.transfer(_claimAmount);
+            }
+        }
     }
 
     // function to calculate insurance premium based on selected insurance type parameters
@@ -130,5 +151,34 @@ contract TravelInsurance {
         }
 
         return payout;
+    }
+}
+
+
+contract TrustedProviders {
+
+    mapping (address => string) public trustedProviders;
+    address owner;
+
+    constructor() public{
+        owner = msg.sender;
+    }
+
+    function addTrustedProvider(address _providerAddress, string _providerName) public {
+        require(msg.sender == owner);
+        trustedProviders[_providerAddress] = _providerName;
+    }
+
+    function removeTrustedProvider(address _providerAddress) public {
+        require(msg.sender == owner);
+        delete trustedProviders[_providerAddress];
+    }
+
+    function fileClaim(address _claimContract, uint _claimAmount) public {
+        TravelInsurance claimContract = TravelInsurance(_claimContract);
+        bytes memory testEmpty = bytes(trustedProviders[msg.sender]);
+        if(testEmpty.length != 0){
+            claimContract.claimFunds(_claimAmount, msg.sender);
+        }
     }
 }
