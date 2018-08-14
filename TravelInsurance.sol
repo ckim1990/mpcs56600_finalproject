@@ -35,10 +35,10 @@ contract TravelInsurance {
         );
 
     event contractValidated(
-        address indexed _insurer
+        address indexed _insurer,
         PolicyDetails indexed _validatedPolicy,
         uint _coverageValue
-        )
+        );
 
     constructor() public {
         // initial constructor called by insurance company
@@ -81,7 +81,7 @@ contract TravelInsurance {
         require(msg.value == calcPolicyPayout(insurancePolicy));
 
         // log details of validated contract
-        emit contractValidated(msg.sender, insurancePolicy, msg.value)
+        emit contractValidated(msg.sender, insurancePolicy, msg.value);
     }
 
     // function to calculate insurance premium based on selected insurance type parameters
@@ -131,10 +131,4 @@ contract TravelInsurance {
 
         return payout;
     }
-
-
-
-
-
-
 }
