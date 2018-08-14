@@ -77,7 +77,7 @@ contract TravelInsurance {
         premiumAmount = calcPolicyPremium(insurancePolicy);
 
         // require that funds send match required premium
-        require(msg.value == calcPolicyPremium(insurancePolicy));
+        require(msg.value >= calcPolicyPremium(insurancePolicy));
 
         // log details of proposed contract
         emit contractProposed(msg.sender, insurancePolicy, msg.value);
@@ -139,7 +139,7 @@ contract TravelInsurance {
         }
 
         // multiply daily rate by multiplier
-        uint policyDuration = endDateTime - startDateTime;
+        uint policyDuration = (endDateTime - startDateTime) / (60*60*24); // convert epoch time in seconds to days
         premium = (policyDuration * 5) * multiplier;
 
         return premium;
