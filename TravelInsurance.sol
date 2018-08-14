@@ -74,6 +74,7 @@ contract TravelInsurance {
         insurancePolicy.erVisitCoverage = _erVisitCoverage;
         insurancePolicy.prescriptionCoverage = _prescriptionCoverage;
         insurancePolicy.surgeryCoverage = _surgeryCoverage;
+        premiumAmount = calcPolicyPremium(insurancePolicy);
 
         // require that funds send match required premium
         require(msg.value == calcPolicyPremium(insurancePolicy));
@@ -100,6 +101,7 @@ contract TravelInsurance {
 
         // log details of validated contract
         emit contractValidated(msg.sender, insurancePolicy, msg.value);
+        maxPayout = calcPolicyPayout(insurancePolicy);
     }
 
     // function for medical provider to claim payment; must be called via TrustedProviders contract
