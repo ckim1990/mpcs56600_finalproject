@@ -101,6 +101,7 @@ contract TravelInsurance {
         if(_claimAmount < maxPayout){
             if (now >= startDateTime && now <= endDateTime){
                 _providerAddress.transfer(_claimAmount);
+                emit claimProcessed(_providerAddress, insurancePolicy, _claimAmount);
             }
         }
     }
