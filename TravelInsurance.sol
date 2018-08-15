@@ -188,8 +188,9 @@ contract TrustedProviders {
     address owner;
 
     // constructor called by insurance company
-    constructor() public{
+    constructor(address _providerAddress, string _providerName) public{
         owner = msg.sender;
+        trustedProviders[_providerAddress] = _providerName;
     }
 
     // function to add new provider to trusted list
