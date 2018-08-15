@@ -55,6 +55,12 @@ contract TravelInsurance {
         uint _amountDisbursed
         );
 
+    // event to record default fallback payment
+    event fallbackPayment(
+        address indexed _messageSender,
+        uint _amount
+        );
+
     // initial constructor called by insurance company
     constructor(address _trustedProviderContract) public {
         owner = msg.sender;
@@ -140,7 +146,7 @@ contract TravelInsurance {
 
         // multiply daily rate by multiplier
         uint policyDuration = (endDateTime - startDateTime) / (60*60*24); // convert epoch time in seconds to days
-        premium = (policyDuration * 5) * multiplier;
+        premium = (policyDuration * 10000000000000000) * multiplier;
 
         return premium;
     }
@@ -150,20 +156,27 @@ contract TravelInsurance {
         uint payout = 0;
 
         if(_insurancePolicy.erVisitCoverage == true){
-            payout += 5000;
+            payout += 5000000000000000000;
         }
 
         if(_insurancePolicy.prescriptionCoverage == true){
-            payout += 1000;
+            payout += 1000000000000000000;
         }
 
         if(_insurancePolicy.surgeryCoverage == true){
-            payout += 10000;
+            payout += 10000000000000000000;
         }
 
         return payout;
     }
+
+    // default fallback function
+    function () external payable{
+        emit fallbackPayment(msg.sender, msg.value);
+    }
+    
 }
+
 
 // separate contract used to manage Insurance company trusted providers
 contract TrustedProviders {
