@@ -146,7 +146,7 @@ contract TravelInsurance {
 
         // multiply daily rate by multiplier
         uint policyDuration = (endDateTime - startDateTime) / (60*60*24); // convert epoch time in seconds to days
-        premium = (policyDuration * 10000000000000000) * multiplier;
+        premium = (policyDuration * 5000000000000000) * multiplier; // 5*10^15 wei equivalent to about USD$2
 
         return premium;
     }
@@ -156,15 +156,15 @@ contract TravelInsurance {
         uint payout = 0;
 
         if(_insurancePolicy.erVisitCoverage == true){
-            payout += 5000000000000000000;
+            payout += (2500000000000000000 * 5); // approx USD$5000
         }
 
         if(_insurancePolicy.prescriptionCoverage == true){
-            payout += 1000000000000000000;
+            payout += 2500000000000000000; // approx USD$1000
         }
 
         if(_insurancePolicy.surgeryCoverage == true){
-            payout += 10000000000000000000;
+            payout += (2500000000000000000 * 10); // approx USD$10000
         }
 
         return payout;
@@ -174,7 +174,7 @@ contract TravelInsurance {
     function () external payable{
         emit fallbackPayment(msg.sender, msg.value);
     }
-    
+
 }
 
 
