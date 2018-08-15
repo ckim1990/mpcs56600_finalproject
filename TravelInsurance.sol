@@ -1,3 +1,11 @@
+/*
+ * Final project for MPCS 56600 -- Intro to Blockchain
+ * Group members: Xiaohan Kong, Regina Widjaya, Claire Kim, Blaze O'Byrne, Andrew Janiszewski
+ *
+ * Solidity contracts for both the TrustedProviders and TravelInsurance contract
+ * types used to build our travel insurance project
+ */
+
 pragma solidity ^0.4.0;
 
 // template for primary traveler insurance contract
@@ -60,6 +68,8 @@ contract TravelInsurance {
         address indexed _messageSender,
         uint _amount
         );
+    // helpful post about events and emitting events:
+    // https://medium.com/@aniketengg/emit-keyword-in-solidity-242a679b0e1a
 
     // initial constructor called by insurance company
     constructor(address _trustedProviderContract) public {
@@ -124,8 +134,8 @@ contract TravelInsurance {
     // function to calculate insurance premium based on selected insurance type parameters
     function calcPolicyPremium(PolicyDetails _insurancePolicy) internal view returns (uint){
 
-        // premium calculated as $5 per day * trip duration * a multiplier that
-        // depends on the type of insurance purchased (I just made this up)
+        // premium calculated as $2 per day * trip duration * a multiplier that
+        // depends on the type of insurance purchased
 
         // set initial premium to 0
         uint premium = 0;
@@ -174,7 +184,8 @@ contract TravelInsurance {
     function () external payable{
         emit fallbackPayment(msg.sender, msg.value);
     }
-
+    // used this posting as a helpful guide for understanding Ethereum fallback functions:
+    // https://ethereum.stackexchange.com/questions/7570/whats-a-fallback-function-when-using-address-send
 }
 
 
@@ -213,4 +224,15 @@ contract TrustedProviders {
             claimContract.claimFunds(_claimAmount, msg.sender);
         }
     }
+    // used this post as a reference for how to check for entries/values in a mapping in Solidity:
+    // https://ethereum.stackexchange.com/questions/13021/how-can-you-figure-out-if-a-certain-key-exists-in-a-mapping-struct-defined-insi
+    // in addition to the Solidity docs, this post was helpful for calling another contract
+    // from a contract: https://ethereum.stackexchange.com/questions/2826/call-function-on-another-contract
+    // also used this post for some context around the ways to transfer funds:
+    // https://ethereum.stackexchange.com/questions/19341/address-send-vs-address-transfer-best-practice-usage
 }
+
+// additional references include the Solidity docs: https://solidity.readthedocs.io/en/v0.4.24/
+// also used two Ethereum/Solidity projects as general references for syntax and structure:
+// https://github.com/AigangNetwork/aigang-forwarder
+// https://github.com/etherisc/flightDelay
