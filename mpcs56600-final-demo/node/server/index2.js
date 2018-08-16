@@ -1,3 +1,8 @@
+// Import all required packages and scripts
+// Packages:
+// - Web3v1.0.0
+// - Rinkeby
+// - Metamask
 const express = require('express');
 const helmet = require('helmet');
 const Web3 = require('web3');
@@ -47,8 +52,10 @@ app.post('/createInsurance', async function(req, res, next) {
   var startDate = new Date(req.body.startdate).getTime()/1000;
   var endDate = new Date(req.body.enddate).getTime()/1000;
 
-  await create_new_policy(startDate, endDate, erCover, prescriptCover, surgeryCover);
-	res.end('Thank you for choosing our service! \n Your Policy Contract Address is: ' + contractHash);
+  create_new_policy(startDate, endDate, erCover, prescriptCover, surgeryCover)
+		.then(function (result) {
+			res.end('Thank you for choosing our service! \n Your Policy Contract Address is: ' + result);
+		})
 
 });
 
@@ -68,25 +75,28 @@ app.listen(port, (err) => {
 
 
 function create_new_policy(startDateTime, endDateTime, erVisitCoverage, prescriptionCoverage, surgeryCoverage) {
-  deployer.deployContract().then(function(result) {
-    var insContract = new web3.eth.Contract(contractAbi, result);
-    contractHash = result;
-    insContract.methods.selectNewPolicy(startDateTime, endDateTime, erVisitCoverage, prescriptionCoverage, surgeryCoverage)
-      .send({
-          from: process.env.RINKEBY_ADDRESS,
-          gas: web3.utils.toHex(4000000),
-          gasPrice: web3.utils.toHex(20000000000),
-					value: 400000000000000000
-        }, function(error, transactionHash){
-            if (error) {
-              console.log(error)
-            }
-            else if (transactionHash) {
-              console.log('newInsurance_TxH:' + transactionHash)
-            }
-        });
-    });
-};
+	return new Promise((resolve, reject) => {
+	  deployer.deployContract().then(function(result) {
+	    var insContract = new web3.eth.Contract(contractAbi, result);
+	    contractHash = result;
+	    insContract.methods.selectNewPolicy(startDateTime, endDateTime, erVisitCoverage, prescriptionCoverage, surgeryCoverage)
+	      .send({
+	          from: process.env.RINKEBY_ADDRESS,
+	          gas: web3.utils.toHex(4000000),
+	          gasPrice: web3.utils.toHex(20000000000),
+						value: 400000000000000000
+	        }, function(error, transactionHash){
+	            if (error) {
+	              console.log(error)
+	            }
+	            else if (transactionHash) {
+	              console.log('newInsurance_TxH:' + transactionHash)
+								resolve(contractHash)
+	            }
+	        });
+	    });
+		});
+}
 
 function get_cover(isCovered) {
   return (isCovered!==1 ? true : false);

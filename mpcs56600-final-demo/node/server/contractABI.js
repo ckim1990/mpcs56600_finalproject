@@ -1,3 +1,4 @@
+// TravelInsurance contract ABI
 module.exports.contractABI = [{
   		"anonymous": false,
   		"inputs": [
