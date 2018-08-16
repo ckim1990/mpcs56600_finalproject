@@ -15,3 +15,5 @@ TravelInsurance contracts reference the TrustedProvider contract and are a contr
 To make a claim against the contract, a medical provider makes a call to the TrustedProvider contract, referencing the address of the TravelInsurance contract against which it's claiming. If the medical provider's address is validated, TrustedProvider makes a call to the individual TravelInsurance contract and payment to the provider is sent immediately.
 
 ***************************
+
+References: specific references are provided within code.
