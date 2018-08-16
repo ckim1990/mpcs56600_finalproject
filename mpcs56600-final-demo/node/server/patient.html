@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Patient Registration Data Input</title>
+        <h1 align="center" style="font-size:200%;">Patient Registration Data Input</h1>
+<!--
+        <script>
+        function validateForm() {
+            var x = document.forms["patientForm"]["my-radio"].value;
+            if (x == "1") {
+
+                alert("Got Policy 1!");
+                return false;
+            }
+        }
+        </script>
+-->
+</head>
+
+<body>
+
+<div class="container documentationbar">
+
+
+    <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-xs-2 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+            <div class="query">
+
+<!--
+              <form name="myForm" action="/action_page.php"
+              onsubmit="return validateForm()" method="post">
+              Name: <input type="text" name="fname">
+              <input type="submit" value="Submit">
+              </form>
+-->
+
+              <form name="patientForm" method= "get" action="/createInsurance">
+                  <fieldset>
+                      <legend><strong>Add Patient Registration Details:</strong></legend>
+
+
+                      <label for="lpolicytype"><input type="checkbox" value=1 name="ercover"> ER Visit Coverage</label>
+                      <label for="lpolicytype"><input type="checkbox" value=1 name="prescriptcover"> Prescription Coverage</label>
+                      <label for="lpolicytype"><input type="checkbox" value=1 name="surgerycover"> Surgery Coverage</label>
+                      <hr>
+
+                      <label for="lstartdate">Start Coverage Date</label>
+                       <input type="date" id="startdate" min = "2018-08-16" name="startdate">
+
+                      <label for="lenddate">End Coverage Date</label>
+                       <input type="date" id="enddate" max = "2019-12-31" name="enddate">
+
+
+                      <button type="submit" formmethod="post"> Submit Insurance Policy Request</button>
+                    <!--   <input type="submit" value="Search"> -->
+                  </fieldset>
+                  <br>
+              </form>
+
+
+
+            </div>
+        </div>
+
+
+        <div class="col-xs-12 col-lg-9">
+           <div class="jumbotron">
+
+               <form method= "post" action="www.google.com">
+               </form>
+
+           </div>
+       </div>
+     </div>
+   </div>
+ </body>
