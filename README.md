@@ -16,7 +16,18 @@ To make a claim against the contract, a medical provider makes a call to the Tru
 
 ***************************
 
-Regina/Claire to include section here.
+Final-Demo : Client-facing web app that deploys and interact Ethereum contract and blockchain network
+
+Packages Used:
+  * Web3.js (v1.0.0beta27) - JS framework that communicates with the Ethereum/blockchain network
+  * Infura.io - Hosted Ethereum node cluster (provider)
+  * Metamask - ETH account managers
+  * Truffle HDWallet - Configure network connection to ethereum through infura.io (or any other compatible provider). This configuration allows for value (ETH) transfer straight from the
+  * Expressjs - Web app framework
+
+
+
+
 
 ***************************
 
