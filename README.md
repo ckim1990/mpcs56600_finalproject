@@ -16,4 +16,8 @@ To make a claim against the contract, a medical provider makes a call to the Tru
 
 ***************************
 
+Regina/Claire to include section here.
+
+***************************
+
 References: specific references are provided within code.
