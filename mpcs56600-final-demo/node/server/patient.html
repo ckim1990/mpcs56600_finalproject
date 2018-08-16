@@ -21,15 +21,20 @@
         <div class="col-xs-2 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
             <div class="query">
 
+              <script>
+              function myFunction() {
+                  alert("Your contract is being recorded. Please wait...");
+              }
+              </script>
 
-              <form name="patientForm" method= "get" action="/createInsurance">
+              <form name="patientForm" method= "get" onsubmit="myFunction()" action="/createInsurance">
                   <fieldset>
                       <legend><strong>Add Patient Registration Details:</strong></legend>
 
 
-                      <label for="lpolicytype"><input type="checkbox" value=1 name="ercover"> ER Visit Coverage </label>
-                      <label for="lpolicytype"><input type="checkbox" value=1 name="prescriptcover"> Prescription Coverage </label>
-                      <label for="lpolicytype"><input type="checkbox" value=1 name="surgerycover"> Surgery Coverage </label>
+                      <label for="lpolicytype"><input type="checkbox" value=1 name="ercover"> ER Visit Coverage</label>
+                      <label for="lpolicytype"><input type="checkbox" value=1 name="prescriptcover"> Prescription Coverage</label>
+                      <label for="lpolicytype"><input type="checkbox" value=1 name="surgerycover"> Surgery Coverage</label>
                       <hr>
 
                       <label for="lstartdate">Start Coverage Date</label>
