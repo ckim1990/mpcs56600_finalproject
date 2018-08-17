@@ -29,16 +29,19 @@ node index.js
 ```
 Then go to _localhost:8801_ to access the web app.
 
+![alt text](mpcs56600_finalproject/mpcs56600-final-demo/img/interface.png)
 
 When users hit submit, server will printout transaction and contract hash in the console.
 
-![alt text](https://github.com/janisza/mpcs56600_finalproject/blob/master/mpcs56600-final-demo/img/Screen%20Shot%202018-08-16%20at%206.53.47%20PM.png)
+![alt text](mpcs56600_finalproject/mpcs56600-final-demo/img/console.png)
 
 After contract creation and transaction process, user will be given a thank you message with their ethereum insurance contract address.
 
-![alt text](https://github.com/janisza/mpcs56600_finalproject/blob/master/mpcs56600-final-demo/img/Screen%20Shot%202018-08-16%20at%206.53.18%20PM.png)
+![alt text](mpcs56600_finalproject/mpcs56600-final-demo/img/finish.png)
 
 Details on transaction can be searched and viewed in the [Rinkeby Etherscan](https://rinkeby.etherscan.io/) website.
+
+![alt text](mpcs56600_finalproject/mpcs56600-final-demo/img/etherscan.png)
 
 _Caveats/To Do:_
   * In real application, travel insurance contract is deployed by the insurance company (owner address), while additional information submitted by user is a transaction prompted from the user address. Metamask ideally would allows creation and signing of multiple accounts (address) that we can use for testing. However, this functionality of metamask is said to have incompability issue with web3v1.0.0beta. Therefore in this particular example, we are using truffle HD Wallet which allow us to utilize one (1) address for testing purposes. We included the different address that _SHOULD_ be used as trasaction actors, but this is not what's being deployed.
