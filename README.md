@@ -29,7 +29,7 @@ node index.js
 ```
 Then go to _localhost:8801_ to access the web app.
 
-![alt text](/mpcs56600-final-demo/img/interface.png)
+![alt text](/mpcs56600-final-demo/img/interface1.png)
 
 When users hit submit, server will printout transaction and contract hash in the console.
 
